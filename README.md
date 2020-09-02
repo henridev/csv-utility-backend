@@ -33,7 +33,8 @@ Please note that the numbers above represent the sequence of operations.
 - Websockets API Gateway
 
 # To do
-- [ ] DLQs
+- [ ] DLQs for failed messages.
 - [ ] Error notifications to clients
 - [ ] Code refactoring and cleanup
 - [ ] Do not stringify `Error` object :P
+- [ ] Setup different environments (test, staging and production)
