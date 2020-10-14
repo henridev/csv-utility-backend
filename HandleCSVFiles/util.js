@@ -35,17 +35,18 @@ const getS3ObjectStream = async (s3, Bucket, Key) => {
 
 const uploadObjectToS3 = async (s3, fileName, extension, Metadata) => {
     try{
-        let destinationFileName = `transformed_${fileName}`;
-        let readableStream      = fs.createReadStream(`/tmp/${fileName}.${extension}`);
-        let Bucket              = process.env.TRANSFORMED_FILE_BUCKET;
-        let Key                 = `${Metadata.operation}/${extension}/${destinationFileName}.${extension}`;
-        let params              = {Bucket, Key, Body: readableStream, Metadata};
+        const {operation, userid} = Metadata;
+        let destinationFileName   = `transformed_${fileName}`;
+        let readableStream        = fs.createReadStream(`/tmp/${fileName}.${extension}`);
+        let Bucket                = process.env.TRANSFORMED_FILE_BUCKET;
+        let Key                   = `${userid}/${operation}/${extension}/${destinationFileName}.${extension}`;
+        let params                = {Bucket, Key, Body: readableStream, Metadata};
 
         let uploadResponse = await s3.upload(params).promise();
         console.log({
             message: `File uploaded to S3 bucket`,
             Bucket,
-            Key: `${Metadata.operation}/${extension}/${destinationFileName}.${extension}`
+            Key
         });
         return uploadResponse;
     }
