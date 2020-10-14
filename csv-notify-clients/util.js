@@ -58,9 +58,12 @@ const prepareQueryToFetchConnectionIds = async (metadataArray) => {
                     userJobMap[userid] = [{jobid, bucket, key}];
                 }
                 // Prepare dynamoDb Query to fetch user connections
-                params.RequestItems.userConnections.Keys.push({
-                    userId:  userid
-                });
+                // Avoiding duplicate keys being pushed inside query
+                if (userJobMap[userid].length  <= 0) {
+                    params.RequestItems.userConnections.Keys.push({
+                        userId:  userid
+                    });
+                }
             })
         );
         console.log({
